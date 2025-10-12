@@ -42,6 +42,8 @@ A pipeline to process imagery from the phase one camera. This system has a high 
 │   ├── APPN_logo.png
 │   ├── docx_example_30072025.png
 │   └── html_example_30072025.png
+├── code
+│   └── summary.txt
 ├── project_tree_structure.txt
 └── quarto-report
     ├── How-to-use-QMD.md
@@ -60,7 +62,7 @@ A pipeline to process imagery from the phase one camera. This system has a high 
         └── html
             └── Template.html
 
-11 directories, 13 files
+12 directories, 14 files
 ```
 <!-- PROJECT_TREE_END -->
 
