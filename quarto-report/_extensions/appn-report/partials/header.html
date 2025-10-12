@@ -1,0 +1,46 @@
+
+<style>
+.sidebar-logo {
+  display: block;
+  width: 200px;
+  text-align: center;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  z-index: 101;
+  background: white;
+  padding: 10px;
+  border-bottom: 1px solid #e9ecef;
+  border-left: 1px solid #e9ecef;
+}
+.logo-img {
+  /* Use local APPN logo */
+  content: url('_extensions/appn-report/assets/Central_APPN_Logo.png');
+  height: 50px;
+  max-width: 100%;
+}
+/* Adjust body and main content containers */
+body {
+  margin-left: 0px !important;
+}
+.main-content, #quarto-content, .content {
+  margin-left: 0 !important;
+  padding-left: 20px !important;
+}
+/* Keep TOC on the right side below the logo */
+#TOC {
+  position: fixed !important;
+  right: 20px !important;
+  top: 120px !important;
+  width: 200px !important;
+}
+/* Ensure title and header sections don't overlap with logo */
+.title-block-header, .header {
+  margin-left: 0 !important;
+  padding-left: 20px !important;
+}
+</style>
+
+<div class="sidebar-logo">
+  <div class="logo-img"></div>
+</div>

@@ -1,0 +1,59 @@
+$if(toc)$
+
+% Set custom Table of Contents title if provided
+$if(toc-title)$
+\renewcommand*\contentsname{$toc-title$}
+$endif$
+
+% Set plain page style for TOC
+\pagestyle{plain}
+
+% Remove bold formatting for all section levels in the TOC (requires tocloft package)
+% \renewcommand{\cftsecfont}{\normalfont}             % Regular font for section entries
+% \renewcommand{\cftsecpagefont}{\normalfont}         % Regular font for section page numbers
+% \renewcommand{\cftsubsecfont}{\normalfont}          % Regular font for subsection entries
+% \renewcommand{\cftsubsecpagefont}{\normalfont}      % Regular font for subsection page numbers
+% \renewcommand{\cftsubsubsecfont}{\normalfont}       % Regular font for subsubsection entries
+% \renewcommand{\cftsubsubsecpagefont}{\normalfont}   % Regular font for subsubsection page numbers
+
+% Ensure dot leaders (........) are included for all levels in the TOC (requires tocloft package)
+% \renewcommand{\cftsecdotsep}{\cftdotsep}            % Dots for section level
+% \renewcommand{\cftsubsecdotsep}{\cftdotsep}         % Dots for subsection level
+% \renewcommand{\cftsubsubsecdotsep}{\cftdotsep}      % Dots for subsubsection level
+
+% Set the color of TOC links based on provided metadata
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+$endif$
+
+% Set TOC depth level (i.e., how many levels to include)
+\setcounter{tocdepth}{$toc-depth$}
+
+% Render the Table of Contents
+\tableofcontents
+
+% Include the List of Tables if defined
+$if(lot)$
+  \listoftables
+$endif$
+
+% Include the List of Figures if defined
+$if(lof)$
+  \listoffigures
+  \newpage
+$endif$
+
+% Clear any page style customizations after the TOC
+\clearpage
+$endif$
+
+% Set up fancy headers for the document
+\pagestyle{fancy}
+\fancyhead{} % Clear all header fields
+\fancyhead[L]{\fontsize{11}{12} \selectfont \color{gray} \nouppercase{\leftmark}} % Format header with left-aligned section title in gray, not in all caps
+
+% Add pagebreak before each section if specified
+$if(pagebreak-before-h1)$
+\let\oldsection\section
+\renewcommand\section{\clearpage\oldsection}
+$endif$

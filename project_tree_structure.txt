@@ -1,0 +1,26 @@
+.
+├── LICENSE
+├── README.md
+├── assets
+│   ├── APPN_logo.png
+│   ├── docx_example_30072025.png
+│   └── html_example_30072025.png
+├── project_tree_structure.txt
+└── quarto-report
+    ├── How-to-use-QMD.md
+    ├── Template.qmd
+    ├── _extensions
+    │   └── appn-report
+    │       ├── _extension.yml
+    │       ├── assets
+    │       ├── filters
+    │       ├── header.tex
+    │       ├── partials
+    │       └── references.bib
+    └── docs
+        ├── docx
+        │   └── Template.docx
+        └── html
+            └── Template.html
+
+11 directories, 13 files

@@ -1,0 +1,41 @@
+# ========================= TEMPLATE METADATA =============================
+# General metadata about the template, including title, author, and version.
+title: APPN-report                            # Title of the template
+author: Sebastian Lopez Marcano               # Author or maintainer of the template
+version: 0.1.0                                # Version number of the template
+quarto-required: ">=1.4.0"                    # Minimum required Quarto version
+
+# ======================== FORMATS & CONFIGURATION ========================
+# Contributes section configures specific formats (docx, html) for the template.
+contributes:
+  formats:
+    # ----------------------- DOCX CONFIGURATION --------------------------
+    docx:
+      reference-doc: assets/template.docx       # Reference DOCX file for formatting
+      toc: true                                 # Enable table of contents (true/false)
+      number-sections: true                     # Number sections in the document
+
+      # Custom Filters for the DOCX Format
+      filters:                                  # Specify Lua filters for modifications
+        - filters/insert-titles.lua             # Filter to insert title and report series
+        - filters/insert-email.lua              # Filter to insert author email addresses
+        - filters/pagebreak-before-h1.lua       # Filter to insert page breaks before H1 headings
+        - filters/landscape.lua                 # Filter to enable landscape orientation
+        - filters/apply-headers.lua             # Filter to apply headers to the doc when using section breaks
+        - filters/docx-formatting.lua           # Filter to apply APPN colors and Arial font
+    
+    # ----------------------- HTML CONFIGURATION --------------------------
+    html:
+      toc: true                                 # Enable table of contents
+      toc_depth: 5
+      toc-location: right                       # Position TOC on the right
+      toc-title: "Contents"                     # Title for the TOC
+      css: assets/appn-styles.css
+      embed-resources: true
+      fig_align: center
+      include-before-body: partials/header.html  # Include HTML header with logo
+      template-partials:
+        - partials/title-block.html             # Custom title block with report series
+      filters:
+        - filters/insert-partners-logo.lua      # Insert Partners logo after title
+        - filters/add-author-email.lua          # Associate email with first author

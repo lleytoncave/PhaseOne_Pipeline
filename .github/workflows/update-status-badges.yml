@@ -1,0 +1,121 @@
+name: Update Project Status Badges
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+
+jobs:
+  update-badges:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for commit analysis
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Calculate project status
+      id: status
+      run: |
+        # Get current date
+        current_date=$(date +%s)
+        
+        # Get date 7 days ago (1 week)
+        week_ago=$(date -d '7 days ago' +%s)
+        
+        # Get date 90 days ago (3 months)
+        three_months_ago=$(date -d '90 days ago' +%s)
+        
+        # Count commits in the last week
+        commits_last_week=$(git log --since="7 days ago" --oneline | wc -l)
+        
+        # Get the date of the last commit
+        last_commit_date=$(git log -1 --format=%ct 2>/dev/null || echo "0")
+        
+        echo "Commits in last week: $commits_last_week"
+        echo "Last commit date: $last_commit_date"
+        echo "Three months ago: $three_months_ago"
+        
+        # Determine status based on rules
+        if [ "$last_commit_date" -lt "$three_months_ago" ] || [ "$last_commit_date" -eq "0" ]; then
+          status="CLOSED"
+          color="306fbc"
+          echo "Status: CLOSED (no commits for 3+ months)"
+        elif [ "$commits_last_week" -gt 20 ]; then
+          status="IN_DEVELOPMENT"
+          color="db6116"
+          echo "Status: IN_DEVELOPMENT (>20 commits in last week)"
+        else
+          status="ACTIVE"
+          color="6f901e"
+          echo "Status: ACTIVE (receiving commits but <20 per week)"
+        fi
+        
+        echo "status=$status" >> $GITHUB_OUTPUT
+        echo "color=$color" >> $GITHUB_OUTPUT
+        echo "commits_last_week=$commits_last_week" >> $GITHUB_OUTPUT
+    
+    - name: Update README badges
+      run: |
+        status="${{ steps.status.outputs.status }}"
+        color="${{ steps.status.outputs.color }}"
+        commits="${{ steps.status.outputs.commits_last_week }}"
+        
+        # Create the new badge line
+        new_badge="![Project Status](https://img.shields.io/badge/status-${status}-${color})"
+        
+        # Update README.md - replace the first status badge while preserving others
+        if [ -f "README.md" ]; then
+          # Use sed with # delimiter to avoid issues with forward slashes in URLs
+          sed -i "s#!\[Project Status\](https://img.shields.io/badge/status-.*-.*#${new_badge}#g" README.md
+          
+          # Also update a comment with the last update info
+          current_time=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          
+          # Add or update a comment after the badge
+          if ! grep -q "<!-- Status last updated:" README.md; then
+            # Add the comment after the first badge - escape the URL for sed
+            badge_pattern=$(echo "${new_badge}" | sed 's/[[\.*^$()+{}|]/\\&/g')
+            sed -i "/${badge_pattern}/a <!-- Status last updated: ${current_time} | Commits last week: ${commits} -->" README.md
+          else
+            # Update existing comment
+            sed -i "s#<!-- Status last updated:.*-->#<!-- Status last updated: ${current_time} | Commits last week: ${commits} -->#g" README.md
+          fi
+          
+          echo "Updated README.md with status: $status"
+        else
+          echo "README.md not found"
+          exit 1
+        fi
+    
+    - name: Check for changes
+      id: changes
+      run: |
+        if git diff --quiet; then
+          echo "No changes to commit"
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Commit changes
+      if: steps.changes.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git commit -m "🤖 Auto-update project status badge to ${{ steps.status.outputs.status }}
+        
+        - Commits in last week: ${{ steps.status.outputs.commits_last_week }}
+        - Status: ${{ steps.status.outputs.status }}
+        - Updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+        
+        git push

@@ -1,0 +1,89 @@
+name: Generate Project Tree
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  generate_tree:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Explicitly request write permission for repo contents
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Delete existing project_tree_structure.txt if it exists
+        run: |
+          if [ -f project_tree_structure.txt ]; then
+            rm project_tree_structure.txt
+          fi
+
+      - name: Generate project tree structure
+        run: tree -L 4 > project_tree_structure.txt
+
+      - name: Update README with project tree
+        run: |
+          # Define the identifier comments
+          IDENTIFIER="<!-- PROJECT_TREE_START -->"
+          END_IDENTIFIER="<!-- PROJECT_TREE_END -->"
+
+          # Check if the markers exist
+          if grep -q "$IDENTIFIER" README.md && grep -q "$END_IDENTIFIER" README.md; then
+            # Create a temporary file with the new tree content
+            cat > temp_tree.txt << EOF
+          $IDENTIFIER
+          <h2>Project structure</h2>
+
+          \`\`\`plaintext
+          $(cat project_tree_structure.txt)
+          \`\`\`
+          $END_IDENTIFIER
+          EOF
+
+            # Replace the content between the markers with the new content
+            # First, extract everything before the start marker
+            sed -n "1,/$IDENTIFIER/p" README.md | sed '$d' > temp_readme.txt
+            
+            # Add the new tree content
+            cat temp_tree.txt >> temp_readme.txt
+            
+            # Add everything after the end marker
+            sed -n "/$END_IDENTIFIER/,\$p" README.md | sed '1d' >> temp_readme.txt
+            
+            # Replace the original README with the updated version
+            mv temp_readme.txt README.md
+            
+            # Clean up temporary files
+            rm temp_tree.txt
+          else
+            echo "Project tree markers not found in README.md"
+            # If markers don't exist, add them at the end as fallback
+            echo "$IDENTIFIER" >> README.md
+            echo '<h2>Project structure</h2>' >> README.md
+            echo >> README.md
+            echo '```plaintext' >> README.md
+            cat project_tree_structure.txt >> README.md
+            echo '```' >> README.md
+            echo "$END_IDENTIFIER" >> README.md
+          fi
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md project_tree_structure.txt
+          git commit -m "Update project tree structure in README" || echo "No changes to commit"
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

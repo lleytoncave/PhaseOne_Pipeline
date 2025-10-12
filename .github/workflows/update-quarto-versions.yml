@@ -1,0 +1,74 @@
+name: Update Quarto Document Versions
+
+on:
+  push:
+    paths:
+      - 'quarto-template/**/*.qmd'
+      - '**/*.qmd'
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-quarto-versions:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Update Quarto document versions
+      run: |
+        # Find all .qmd files in the repository
+        find . -name "*.qmd" -type f | while read -r file; do
+          echo "Processing: $file"
+          
+          # Get the last commit date for this specific file
+          last_commit_date=$(git log -1 --format=%cd --date=format:"%d %B %Y at %H:%M %Z" -- "$file" 2>/dev/null || echo "Never committed")
+          
+          # Get commit count for this file
+          commit_count=$(git log --oneline -- "$file" | wc -l)
+          
+          # Create version based on last commit date of the file
+          version_date=$(git log -1 --format=%cd --date=format:"%Y.%m.%d" -- "$file" 2>/dev/null || date +%Y.%m.%d)
+          
+          # Update the version information in the document
+          if grep -q "Document Version:" "$file"; then
+            # Use sed to update the version information
+            sed -i "s/\*\*Document Version:\*\* v[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+/\*\*Document Version:\*\* v${version_date}.${commit_count}/g" "$file"
+            sed -i "s/\*\*Last Updated:\*\* .*/\*\*Last Updated:\*\* ${last_commit_date}/g" "$file"
+            echo "Updated version in $file to v${version_date}.${commit_count}"
+          else
+            echo "No version information found in $file"
+          fi
+        done
+    
+    - name: Check for changes
+      id: changes
+      run: |
+        if git diff --quiet; then
+          echo "No changes to commit"
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Commit version updates
+      if: steps.changes.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "🤖 Auto-update Quarto document versions
+        
+        - Updated document versions based on commit history
+        - Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+        
+        git push

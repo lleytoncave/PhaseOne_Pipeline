@@ -1,0 +1,108 @@
+% ====================================================
+% Custom LaTeX Header for APPN Report Template
+% ====================================================
+
+% Define commonly used commands and settings
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}  % Horizontal rule with custom thickness
+\newcommand{\sbf}[1]{\textsf{\textbf{#1}}}  % Custom command for sans-serif bold text
+
+% ---------------------------------------
+% Color Definitions
+% ---------------------------------------
+\usepackage{xcolor}
+\definecolor{APPN}{HTML}{333F48}     % Define primary APPN color
+\definecolor{APPNprimary}{HTML}{333F48} % Primary APPN color (dark blue-gray)
+\definecolor{APPNblack}{HTML}{414042} % Neutral black for headings and text
+
+% ---------------------------------------
+% Font Configuration
+% ---------------------------------------
+\usepackage{fontspec}
+% Set Arial as the main typeface for APPN
+\setmainfont{Arial}        % Main font for text
+\setsansfont{Arial}        % Sans-serif font for headings and titles
+
+% ---------------------------------------
+% Hyperlink Configuration
+% ---------------------------------------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,      % Enable colored links
+    linkcolor=APPN,       % Set link color to APPN primary
+    urlcolor=APPN         % Set URL color to APPN primary
+}
+
+% ---------------------------------------
+% Graphics and List Formatting
+% ---------------------------------------
+\usepackage{graphicx}  % Include graphics in the document
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}  % Set tight list formatting
+
+% ---------------------------------------
+% Conditional Packages
+% ---------------------------------------
+% Load 'upquote' for verbatim environments with straight quotes (if available)
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+% Load 'microtype' for better typography (if available)
+\IfFileExists{microtype.sty}{%
+  \usepackage{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % Disable protrusion for tt fonts
+}{}
+
+% ---------------------------------------
+% Appendix Setup
+% ---------------------------------------
+\newcommand{\appnappendix}{%
+  \appendix  % Start appendix section
+  \renewcommand{\thesection}{\Alph{section}}  % Change section numbering to A, B, C, etc.
+  \setcounter{section}{0}  % Reset section counter for appendix
+}
+
+% ---------------------------------------
+% Headers and Footers Setup
+% ---------------------------------------
+\usepackage{fancyhdr}   % Use fancyhdr for custom headers and footers
+% \usepackage{sectsty}    % Use sectsty to style section headings (commented out if not available)
+% \usepackage{tocloft}    % Use tocloft to customize Table of Contents (TOC) (commented out if not available)
+\usepackage{pdflscape}  % Use pdflscape for landscape pages
+
+% ---------------------------------------
+% Additional Customizations (commented out for now)
+% ---------------------------------------
+% The following commands are commented out as placeholders for future customizations.
+% Uncomment and customize as needed for the template.
+
+% \usepackage[normalem]{ulem} % For strikeout text
+% \usepackage{verbatim}       % For verbatim text in footnotes
+
+% % Custom citation formatting (example)
+% \NewDocumentCommand\citeproc{mm}{%
+%   \begingroup\def\citeproctext{#2}\cite{#1}\endgroup
+% }
+
+% \makeatletter
+% % Avoid brackets around citation text
+% \def\@biblabel#1{}
+% \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+% \makeatother
+
+% % Customize list formatting for references
+% \newlength{\cslhangindent}
+% \setlength{\cslhangindent}{1.5em}
+% \newenvironment{CSLReferences}%
+% {\setlength{\parindent}{0pt}%
+% \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+% {\par}
+
+% \usepackage{enumitem}
+% \newlist{biblist}{itemize}{1}
+% \setlist[biblist]{label={},leftmargin=\cslhangindent,itemindent=-1\cslhangindent,itemsep=\cslentryspacing}
+% \usepackage{calc}
+% \newcommand{\CSLBlock}[1]{#1\hfill\break}
+% \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+% \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+% \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+% ====================================================

@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Start of Title Page
+
+% Define custom heading styles (commented out due to dependency on sectsty)
+% \sectionfont{\fontsize{20}{20}\selectfont}  % Level 1 headings: 20pt font size
+% \subsectionfont{\fontsize{16}{16}\selectfont}  % Level 2 headings: 16pt font size
+% \subsubsectionfont{\fontsize{14}{14}\selectfont\normalfont}  % Level 3 headings: 14pt font size, normal font
+
+\thispagestyle{empty}  % Remove page numbering for the title page
+\vspace*{-18mm}  % Adjust top margin
+
+% Logo for the title page
+\begin{center}
+    \includegraphics[height = 3cm]{$assetpath$/APPN_logo}
+\end{center}
+
+\vspace{35mm}
+
+% Title Page Content
+\begin{flushright}
+    \HRule\\[5mm]  % Horizontal rule separator
+
+    % Report Series and Title in custom color and font styles
+    \Huge
+    \textcolor{APPN}{\textsf{\textbf{$report-series$}}}\\[6mm]
+    {\textsf{\textbf{$title$}}}\\
+
+    % Subtitle in smaller font size
+    \Large
+    \vspace{2mm}{\textsf{\textbf{$subtitle$}}}\\[5mm]
+
+    % Author(s) Information
+    \sf\normalsize
+    $for(author)$
+        \textsf{$author$}\\
+    $endfor$
+    $job-title$  % Job title (if provided)
+    $address$    % Address (if provided)
+    \vspace*{0.4cm}
+
+    % Email (if provided)
+    $if(email)$
+        email:\;$email$\\[8mm]
+    $endif$
+
+    % Date of the report
+    $date$
+    \HRule  % Bottom separator
+\end{flushright}
+
+\vfill  % Vertically align content
+
+% Partner Logo or Alternative Partner Graphics
+$if(partner-logo)$
+    \begin{center}
+        \includegraphics[height=2cm]{$partner-logo$}
+    \end{center}
+$endif$
+
+\vspace*{-22mm}  % Adjust vertical spacing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% End of Title Page
+
+\clearpage  % Start content on a new page
+
+% Front Matter Section (if applicable)
+$if(has-frontmatter)$
+    \frontmatter
+$endif$
+
+% Set the page counter to 1 after the title page
+\setcounter{page}{1}
+
+% Define custom heading styles (commented out due to sectsty dependency)
+% \sectionfont{\fontsize{20}{20}\selectfont}  % Level 1 headings: 20pt font size
+% \subsectionfont{\fontsize{16}{16}\selectfont}  % Level 2 headings: 16pt font size
+% \subsubsectionfont{\fontsize{14}{14}\selectfont\normalfont}  % Level 3 headings: 14pt font size, normal font
+

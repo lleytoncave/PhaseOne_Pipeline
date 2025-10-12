@@ -1,0 +1,84 @@
+---
+# ======================= USER INPUT SECTION ============================
+# Modify the following fields as needed
+
+# General Information
+report-series: "Australian Plant Phenomics Network - The University of Queensland (APPN-UQ)"  # Report series name
+
+# Document Title and Subtitle
+title: "Final Report for Project_Code"        # Main title of the report
+subtitle: "This is the subtitle, it includes a short description of the repport"  # Subtitle, modify as required
+
+# Author Information
+author:                                      # List of authors
+  - "**Sebastian Lopez Marcano**"   # First author, surround with ** to bold
+  - "Daniel Smith"
+  - "Xiaolong Chen"
+  - "Chris James" 
+  - "Carla Gho Brito"
+  - "Scott Chapman"
+email: "s.lopezmarcano@uq.edu.au"               # Contact email for the primary author(s)
+
+# Additional Display Options
+lot: false                                   # List of Tables (true/false)
+lof: true                                    # List of Figures (true/false)
+pagebreak-before-h1: true                    # Pagebreak before level 1 headings (true/false)
+partner-logo: "_extensions/appn-report/assets/APPN_logo.png"  # Path to the partner logo (PNG version)
+bibliography: _extensions/appn-report/references.bib                 # Path to bibliography file
+
+# ===================== END OF USER INPUT SECTION ========================
+
+# ====================== INTERNAL SETTINGS ===============================
+# Do not modify the following fields; required for consistent formatting
+
+# Automatic date generation
+date: today                                  # Auto-generate date
+date-format: long                            # Full date format (e.g., "October 2, 2024")
+
+# Formatting Output
+format:                                      # Output formats supported by the template
+  appn-report-docx: default                  # DOCX formatting using custom style
+  appn-report-html: default                  # HTML formatting using custom style
+---
+# Executive Summary {.unnumbered}
+
+This is a test of the APPN report template. This template uses Arial typeface and the APPN primary color (#333F48) for branding.
+
+# Introduction
+
+The APPN report template has been successfully created based on the AAGI template structure. Key features include:
+
+- APPN branding with the correct logo
+- Arial typeface throughout
+- APPN primary color (#333F48) for headings and links
+- Consistent formatting across PDF, DOCX, and HTML outputs
+
+## Template Features
+
+This template includes all the necessary components for professional APPN reports:
+
+- Custom LaTeX styling for PDF output
+- DOCX reference document for Word output  
+- CSS styling for HTML output
+- Lua filters for advanced formatting
+
+# Test Section
+
+This section demonstrates the template functionality with some example content.
+
+## Subsection Example
+
+Content in subsections follows the APPN styling guidelines.
+
+### Subsubsection Example
+
+Even deeper levels maintain consistent formatting.
+
+# Conclusions
+
+The APPN report template is now ready for use and follows the same structure as the AAGI template while incorporating APPN-specific branding and styling.
+
+# References {.unnumbered}
+
+::: {#refs}
+:::

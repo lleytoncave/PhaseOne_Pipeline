@@ -1,0 +1,38 @@
+$if(title)$
+<div class="quarto-title">
+$if(report-series)$
+<h4 class="report-series">$report-series$</h4>
+$endif$
+<h1 class="title">$title$</h1>
+
+$if(subtitle)$
+<p class="subtitle">$subtitle$</p>
+$endif$
+
+$if(author)$
+<div class="quarto-title-author">
+$for(author)$
+<div class="quarto-title-author-name">$author$</div>
+$endfor$
+
+$if(author-email-html)$
+$author-email-html$
+$elseif(email)$
+<div class="quarto-title-author-email">$email$</div>
+$endif$
+</div>
+$endif$
+
+$if(abstract)$
+<div class="abstract">
+<div class="abstract-title">$abstract-title$</div>
+$abstract$
+</div>
+$endif$
+
+$if(date)$
+<p class="date">$date$</p>
+$endif$
+
+</div>
+$endif$
