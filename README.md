@@ -1,33 +1,35 @@
 <div style="font-family: Arial, sans-serif;">
 
-# APPN UQ Project Template
+# Phase One Imagery processing pipeline
 
 ![Project Status](https://img.shields.io/badge/status-ACTIVE-6f901e)
 <!-- Status last updated: 2025-10-12 06:21:02 UTC | Commits last week: 7 -->
 
-> Text in [] needs to be edited with your details.
-> Project badges are automatically updated by the GitHub Actions workflow.
-> Project tree structure updated by the GitHub Actions workflow.
-> Please do not edit the `project_tree_structure.txt` file directly; it is generated automatically.
-
->💡 v2.0 - QMD template now available - read 'How-to-use-QMD.md'
-
-[Add here a brief description of your project, its goals, and any relevant context. This template serves as a starting point for APPN UQ research projects. Use it to create consistent, well-organized project repositories.]
+A pipeline to process imagery from the phase one camera. This system has a high resolution rgb camera and generates a large amount of data that needs to be handled efficiently. 
 
 
 ## Project Information
 
 **Project Code:** [Insert APPN project code]
 
-**Project Title:** [Insert full project title]
+**Project Title:** [Phase One Pipeline]
 
-**Start Date:** [Date]
+**Start Date:** [2025-10-13]
 
-**End Date:** [Date]  
+**End Date:** [NA]  
 
 ## Project Description
 
-[Provide a description of the project, including objectives and outputs]
+[A pipeline to process imagery from the phase one camera. This system has a high resolution rgb camera and generates a large amount of data that needs to be handled efficiently. The pipeline outline consists of a few steps:
+
+1 - Downsamples of raw iiq files while maintaining all metadata. This step is done using Imagemagick which natively supports IIQ image files from the phase one.
+
+2 - Run downsampled images through agisoft to align cameras and estimate extrinsic and intrinsic camera parameters for reverse calculation of the plot boundaries from the raw images
+
+3 - To implement with code from Lukas using the Phase One SDK to optimise denoising and resolution. In this step will specify plot bounds from agisoft output adjusting for dowsampling in step 1.
+
+4 - This should hopefully generate high resoltuion plot clip photos for tasks like object detection and segmentation with a known area or gsd that can allow calculation of traits with a refernce to area, ex. Plants per m2.]
+
 
 <!-- PROJECT_TREE_START -->
 <h2>Project structure</h2>
@@ -64,13 +66,14 @@
 
 ## Data Management
 
-[Directory path where data is stored in RDM]
+[No associated data]
 
 ## Installation and Setup
 
 To set up the project environment, follow these steps:
 
 [Provide instructions for setting up the project environment, including dependencies and configurations]
+To add full list (Dependencies: ImageMagick, Phase one SDK, Agisoft Metashape).
 
 ## Usage
 
@@ -80,6 +83,7 @@ To set up the project environment, follow these steps:
 ## Contact
 
 **APPN UQ:** appn@uq.edu.au
+**Lleyton Cave:** l.cave@uq.edu.au
 
 ## Acknowledgments
 
