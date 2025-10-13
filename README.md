@@ -3,7 +3,7 @@
 # Phase One Imagery processing pipeline
 
 ![Project Status](https://img.shields.io/badge/status-ACTIVE-6f901e)
-<!-- Status last updated: 2025-10-12 06:21:02 UTC | Commits last week: 7 -->
+<!-- Status last updated: 2025-10-13 06:22:54 UTC | Commits last week: 8 -->
 
 A pipeline to process imagery from the phase one camera. This system has a high resolution rgb camera and generates a large amount of data that needs to be handled efficiently. 
 
